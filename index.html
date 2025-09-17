@@ -5,30 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mt Olympus Mons - Journey to Mars</title>
     <style>
-        body { font-family: 'Orbitron', sans-serif; margin: 0; padding: 0; background: url('https://photojournal.jpl.nasa.gov/jpeg/PIA22659.jpg') no-repeat center fixed; background-size: cover; color: #F6F7F9; overflow-x: hidden; }
+        body { font-family: 'Orbitron', sans-serif; margin: 0; padding: 0; background: url('https://photojournal.jpl.nasa.gov/jpeg/PIA22659.jpg') no-repeat center fixed; background-size: cover; color: #F6F7F9; overflow-x: hidden; } /* Full-screen premium Mars background */
         @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
-        header { background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)); height: 100vh; text-align: center; padding-top: 20vh; animation: fadeIn 2s; }
+        header { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)); height: 100vh; text-align: center; padding-top: 20vh; animation: fadeIn 2s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        nav { background: linear-gradient(45deg, #1E2A44, #4A90E2); padding: 1rem; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 0 20px rgba(74, 144, 226, 0.5); clip-path: polygon(0 0, 100% 0, 100% 80%, 90% 100%, 10% 100%, 0 80%); } /* Starship-shaped nav bar with premium gradient */
+        nav { background: linear-gradient(45deg, #C1440E, #FF6A3D); padding: 1rem; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 0 20px rgba(255, 106, 61, 0.5); border-radius: 0 0 15px 15px; } /* Premium nav bar with gradient and glow */
         nav a { color: #F6F7F9; margin: 0 2rem; text-decoration: none; transition: color 0.3s; }
-        nav a:hover { color: #FF6A3D; }
+        nav a:hover { color: #8FBCE6; }
         .section { padding: 5rem 2rem; text-align: center; min-height: 100vh; }
-        .booking-form { max-width: 600px; margin: 2rem auto; background: rgba(0,0,0,0.7); padding: 2rem; border-radius: 15px; box-shadow: 0 0 30px rgba(26, 188, 156, 0.3); } /* Premium teal glow */
-        .booking-form input, .booking-form select { width: 100%; padding: 1rem; margin: 0.5rem 0; border: none; border-radius: 5px; background: rgba(0,0,0,0.9); color: #F6F7F9; } /* White text on dark */
-        .booking-form select option { background: rgba(0,0,0,0.9); color: #F6F7F9; }
-        .booking-btn { background: linear-gradient(45deg, #1E2A44, #4A90E2); color: #F6F7F9; padding: 1rem 2rem; border: none; border-radius: 30px 30px 5px 5px; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(26, 188, 156, 0.5); position: relative; } /* Starship rocket shape with premium glow */
-        .booking-btn::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px transparent solid; border-right: 10px transparent solid; border-top: 10px #4A90E2 solid; } /* Flame effect */
-        .booking-btn svg { margin-right: 10px; fill: #F6F7F9; width: 20px; height: 20px; } /* Starship icon */
-        .booking-btn:hover { transform: scale(1.05); box-shadow: 0 0 40px rgba(26, 188, 156, 0.8); }
-        .booking-btn:active { transform: scale(1.1); box-shadow: 0 0 50px rgba(26, 188, 156, 1); }
+        .booking-form { max-width: 600px; margin: 2rem auto; background: rgba(0,0,0,0.5); padding: 2rem; border-radius: 15px; box-shadow: 0 0 30px rgba(193, 68, 14, 0.3); } /* Premium shadow glow */
+        .booking-form input, .booking-form select { width: 100%; padding: 1rem; margin: 0.5rem 0; border: none; border-radius: 30px; background: rgba(0,0,0,0.8); color: #F6F7F9; box-shadow: 0 0 10px rgba(255, 106, 61, 0.3); } /* Premium rounded bars with glow */
+        .booking-form select option { background: rgba(0,0,0,0.8); color: #F6F7F9; }
+        .booking-btn { background: linear-gradient(45deg, #C1440E, #FF6A3D); color: #0B0F1A; padding: 1rem 2rem; border: none; border-radius: 30px 30px 5px 5px; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(26, 188, 156, 0.5); position: relative; } /* Starship rocket shape with rounded top and flat bottom, premium glow */
+        .booking-btn::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px transparent solid; border-right: 10px transparent solid; border-top: 10px #FF6A3D solid; } /* Flame effect */
+        .booking-btn svg { margin-right: 10px; fill: #0B0F1A; width: 20px; height: 20px; } /* Starship icon */
+        .booking-btn:hover { transform: scale(1.05); box-shadow: 0 0 40px rgba(26, 188, 156, 0.8); } /* Premium click feel with scale and glow */
+        .booking-btn:active { transform: scale(1.1); } /* Premium click feedback */
         .disclaimer { color: #8FBCE6; font-size: 0.9em; margin-top: 1rem; }
         .places-animation { display: none; animation: fadeIn 1s; }
-        .animated-3d { width: 80%; max-width: 800px; height: 400px; border: 1px solid #4A90E2; border-radius: 10px; animation: zoomIn 2s; box-shadow: 0 0 30px rgba(26, 188, 156, 0.5); }
+        .animated-3d { width: 80%; max-width: 800px; height: 400px; border: 1px solid #C1440E; border-radius: 10px; animation: zoomIn 2s; box-shadow: 0 0 20px rgba(193, 68, 14, 0.5); } /* Premium 3D container with glow */
         @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .rocket-launch { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; z-index: 2000; }
         .rocket-launch svg { width: 100px; height: 100px; fill: #FF6A3D; animation: launch 3s ease-out forwards; }
         @keyframes launch { 0% { transform: translate(-50%, -50%) rotate(0deg); opacity: 0; } 20% { opacity: 1; } 100% { transform: translate(-50%, -2000%) rotate(720deg); opacity: 0; } }
-        footer { background: linear-gradient(45deg, #1E2A44, #4A90E2); padding: 1rem; text-align: center; position: relative; bottom: 0; width: 100%; box-shadow: 0 0 20px rgba(26, 188, 156, 0.5); border-radius: 15px 15px 0 0; }
+        footer { background: linear-gradient(45deg, #C1440E, #FF6A3D); padding: 1rem; text-align: center; position: relative; bottom: 0; width: 100%; box-shadow: 0 0 20px rgba(255, 106, 61, 0.5); border-radius: 15px 15px 0 0; } /* Premium footer bar with gradient and glow */
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
@@ -114,14 +114,13 @@
             let geometry, material;
             if (place === 'olympus') {
                 geometry = new THREE.SphereGeometry(5, 32, 32); // Mountain-like
-                const texture = new THREE.TextureLoader().load('https://via.placeholder.com/512x512?text=Olympus+Texture'); // Placeholder texture
-                material = new THREE.MeshPhongMaterial({ map: texture, color: 0xff4500, shininess: 50 });
+                material = new THREE.MeshPhongMaterial({ color: 0xff4500, shininess: 50 }); // Red for Olympus Mons
             } else if (place === 'valles') {
                 geometry = new THREE.CylinderGeometry(5, 5, 10, 32); // Canyon-like
-                material = new THREE.MeshPhongMaterial({ color: 0x8B4513, shininess: 50 });
+                material = new THREE.MeshPhongMaterial({ color: 0x8B4513, shininess: 50 }); // Earthy brown
             } else if (place === 'jezero') {
                 geometry = new THREE.ConeGeometry(5, 10, 32); // Crater-like
-                material = new THREE.MeshPhongMaterial({ color: 0xA52A2A, shininess: 50 });
+                material = new THREE.MeshPhongMaterial({ color: 0xA52A2A, shininess: 50 }); // Rusty red
             }
 
             const mesh = new THREE.Mesh(geometry, material);
@@ -182,7 +181,7 @@
                 document.getElementById('booking-form').appendChild(paypalForm);
 
                 generateTicket(name, email, year, place);
-            }, 3000); // Delay to show launch animation
+            }, 3000); // 3-second animation
         }
 
         function generateTicket(name, email, year, place) {
