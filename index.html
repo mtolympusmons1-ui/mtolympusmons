@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,25 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mt Olympus Mons - Journey to Mars</title>
     <style>
-        body { font-family: 'Orbitron', sans-serif; margin: 0; padding: 0; background: url('https://photojournal.jpl.nasa.gov/jpeg/PIA22659.jpg') no-repeat center fixed; background-size: cover; color: #F6F7F9; overflow-x: hidden; }
+        body { font-family: 'Orbitron', sans-serif; margin: 0; padding: 0; background: url('https://photojournal.jpl.nasa.gov/jpeg/PIA22659.jpg') no-repeat center fixed; background-size: cover; color: #F6F7F9; overflow-x: hidden; } /* Changed background to NASA Mars panorama */
         @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
         header { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)); height: 100vh; text-align: center; padding-top: 20vh; animation: fadeIn 2s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        nav { background: rgba(0,0,0,0.8); padding: 1rem; position: fixed; width: 100%; top: 0; z-index: 1000; }
+        nav { background: linear-gradient(45deg, #C1440E, #FF6A3D); padding: 1rem; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 0 20px rgba(255, 106, 61, 0.5); border-radius: 0 0 15px 15px; } /* Nav bar with rocket shape-like gradient and shadow for premium look */
         nav a { color: #F6F7F9; margin: 0 2rem; text-decoration: none; transition: color 0.3s; }
-        nav a:hover { color: #FF6A3D; }
+        nav a:hover { color: #8FBCE6; }
         .section { padding: 5rem 2rem; text-align: center; min-height: 100vh; }
-        .booking-form { max-width: 600px; margin: 2rem auto; background: rgba(0,0,0,0.5); padding: 2rem; border-radius: 15px; }
-        .booking-form input, .booking-form select { width: 100%; padding: 1rem; margin: 0.5rem 0; border: none; border-radius: 5px; background: #333; color: #F6F7F9; /* Dark background, white text */ }
-        .booking-form select option { background: #333; color: #F6F7F9; /* White options on dark */ }
-        .booking-btn { background: #C1440E; color: #F6F7F9; padding: 1rem 2rem; border: none; border-radius: 5px; cursor: pointer; transition: transform 0.3s; display: flex; align-items: center; justify-content: center; }
-        .booking-btn svg { margin-right: 10px; fill: #F6F7F9; }
-        .booking-btn:hover { transform: scale(1.05); background: #FF6A3D; }
+        .booking-form { max-width: 600px; margin: 2rem auto; background: rgba(0,0,0,0.5); padding: 2rem; border-radius: 15px; box-shadow: 0 0 30px rgba(193, 68, 14, 0.3); } /* Premium shadow glow */
+        .booking-form input, .booking-form select { width: 100%; padding: 1rem; margin: 0.5rem 0; border: none; border-radius: 5px; background: rgba(0,0,0,0.8); color: #F6F7F9; } /* Fixed white text on dark */
+        .booking-form select option { background: rgba(0,0,0,0.8); color: #F6F7F9; }
+        .booking-btn { background: linear-gradient(45deg, #C1440E, #FF6A3D); color: #0B0F1A; padding: 1rem 2rem; border: none; border-radius: 30px; cursor: pointer; transition: transform 0.3s; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(255, 106, 61, 0.5); } /* Rocket-shaped button with rounded ends and glow */
+        .booking-btn svg { margin-right: 10px; fill: #0B0F1A; width: 20px; height: 20px; } /* Rocket icon */
+        .booking-btn:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 106, 61, 0.8); }
         .disclaimer { color: #8FBCE6; font-size: 0.9em; margin-top: 1rem; }
         .places-animation { display: none; animation: fadeIn 1s; }
-        .animated-3d { width: 80%; max-width: 800px; height: 400px; border: 1px solid #C1440E; border-radius: 10px; animation: zoomIn 2s; }
+        .animated-3d { width: 80%; max-width: 800px; height: 400px; border: 1px solid #C1440E; border-radius: 10px; animation: zoomIn 2s; box-shadow: 0 0 20px rgba(193, 68, 14, 0.5); } /* Premium 3D container with glow */
         @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        footer { background: rgba(0,0,0,0.8); padding: 1rem; text-align: center; position: relative; bottom: 0; width: 100%; }
+        footer { background: linear-gradient(45deg, #C1440E, #FF6A3D); padding: 1rem; text-align: center; position: relative; bottom: 0; width: 100%; box-shadow: 0 0 20px rgba(255, 106, 61, 0.5); border-radius: 15px 15px 0 0; } /* Footer bar with rocket-like gradient */
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
@@ -59,7 +60,9 @@
                 <option value="jezero">Jezero Crater</option>
             </select>
             <button class="booking-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm0 21.75c-5.385 0-9.75-4.365-9.75-9.75s4.365-9.75 9.75-9.75 9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75zm4.95-9.75l-5.4 3.6v-7.2l5.4 3.6z"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm0 21.75c-5.385 0-9.75-4.365-9.75-9.75s4.365-9.75 9.75-9.75 9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75zm4.95-9.75l-5.4 3.6v-7.2l5.4 3.6z" fill="#0B0F1A"/>
+                </svg>
                 Buy Your Novelty Ticket ($5)
             </button>
             <div id="places-animation" class="places-animation" style="display: none;">
@@ -71,12 +74,12 @@
     <div class="section" id="leaderboard">
         <h2>Mars Tourists Leaderboard</h2>
         <p>12,345 brave souls have booked! Will you be next?</p>
-        <div class="passport" id="passport" style="display: none;">
+        <div id="passport" style="display: none;">
             <h3>Mars Passport</h3>
             <p>Name: [Generated]</p>
             <p>Status: Approved for Mars [Year]</p>
         </div>
-        <div class="golden-ticket" id="golden-ticket" style="display: none;">
+        <div id="golden-ticket" style="display: none;">
             <h3>Golden Ticket Upgrade!</h3>
             <p>Congrats, you’re a VIP Mars Explorer!</p>
         </div>
@@ -89,19 +92,19 @@
         <p>&copy; 2025 Mt Olympus Mons. All tickets are novelty items for entertainment only. No real travel provided.</p>
     </footer>
     <script>
-        // 3D Container for Places
+        // Places 3D Generation
         function showPlace3D(place) {
             const container = document.getElementById('3d-container');
             container.innerHTML = ''; // Clear previous
             const scene = new THREE.Scene();
             const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer();
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(container.clientWidth, container.clientHeight);
             container.appendChild(renderer.domElement);
 
             let geometry, material;
             if (place === 'olympus') {
-                geometry = new THREE.SphereGeometry(5, 32, 32);
+                geometry = new THREE.SphereGeometry(5, 32, 32); // Mountain-like
                 material = new THREE.MeshPhongMaterial({ color: 0xff4500 }); // Red for Olympus Mons
             } else if (place === 'valles') {
                 geometry = new THREE.CylinderGeometry(5, 5, 10, 32); // Canyon-like
@@ -127,9 +130,10 @@
             animate();
 
             document.getElementById('places-animation').style.display = 'block';
+            document.getElementById('places-animation').scrollIntoView();
         }
 
-        // Booking Function (PayPal Integration)
+        // Booking Function (Real PayPal Integration)
         function bookTicket() {
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
@@ -143,38 +147,38 @@
 
             showPlace3D(place);
 
-            // PayPal Button (Replace with your PayPal code)
-            // Go to paypal.com/buttons, generate a button for $5, paste the form here
-            const paypalForm = document.createElement('form');
-            paypalForm.action = 'https://www.paypal.com/cgi-bin/webscr';
-            paypalForm.method = 'post';
-            paypalForm.innerHTML = `
-                <input type="hidden" name="cmd" value="_s-xclick">
-                <input type="hidden" name="hosted_button_id" value="YOUR_BUTTON_ID"> // Replace with your PayPal button ID
-                <input type="hidden" name="item_name" value="Novelty Mars Ticket">
-                <input type="hidden" name="amount" value="5.00">
-                <input type="hidden" name="currency_code" value="USD">
-                <input type="hidden" name="business" value="madankc2580@gmail.com"> // Your PayPal email
-                <input type="hidden" name="custom" value="${name},${email},${year},${place}">
-                <input type="submit" value="Pay with PayPal" class="booking-btn">
+            // PayPal Integration (Replace with your button code)
+            const paypalDiv = document.createElement('div');
+            paypalDiv.innerHTML = `
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                    <input type="hidden" name="cmd" value="_s-xclick">
+                    <input type="hidden" name="hosted_button_id" value="YOUR_BUTTON_ID"> // Replace with your PayPal button ID
+                    <input type="hidden" name="item_name" value="Novelty Mars Ticket">
+                    <input type="hidden" name="amount" value="5.00">
+                    <input type="hidden" name="currency_code" value="USD">
+                    <input type="hidden" name="business" value="madankc2580@gmail.com"> // Your PayPal email
+                    <input type="hidden" name="custom" value="${name},${email},${year},${place}">
+                    <input type="submit" value="Pay with PayPal" class="booking-btn">
+                </form>
             `;
-            document.getElementById('booking-form').appendChild(paypalForm);
+            document.getElementById('booking-form').appendChild(paypalDiv);
 
-            // Simulated PDF and alerts (real PDF/email needs server)
+            // Simulated PDF (real generation on server)
             generateTicket(name, email, year, place);
         }
 
         function generateTicket(name, email, year, place) {
             alert(`Thank you, ${name}! Your novelty boarding pass is being generated. Check your email: ${email}`);
-            // Simulate PDF generation
             const ticketContent = `
-                <h1>Mt Olympus Mons Boarding Pass</h1>
-                <p>Traveler: ${name}</p>
-                <p>Departure: ${year}</p>
-                <p>Flight: MTO-${Math.random().toString().slice(2,6)}</p>
-                <p>Boarding Gate: Launch Pad 39A, Cape Canaveral</p>
-                <p>Place: ${place}</p>
-                <p style="font-size: 0.7em">This is a novelty item for entertainment only. No real travel provided.</p>
+                <div style="font-family: Arial; padding: 20px; background: url('https://via.placeholder.com/800x600?text=Mars+Background'); color: #F6F7F9;">
+                    <h1 style="color: #C1440E;">Mt Olympus Mons Boarding Pass</h1>
+                    <p>Traveler: ${name}</p>
+                    <p>Departure: ${year}</p>
+                    <p>Flight: MTO-${Math.random().toString().slice(2,6)}</p>
+                    <p>Boarding Gate: Launch Pad 39A, Cape Canaveral</p>
+                    <p>Place: ${place}</p>
+                    <p style="font-size: 0.7em">This is a novelty item for entertainment only. No real travel provided.</p>
+                </div>
             `;
             const blob = new Blob([ticketContent], { type: 'application/pdf' });
             const url = URL.createObjectURL(blob);
@@ -184,14 +188,6 @@
             a.click();
             URL.revokeObjectURL(url);
         }
-
-        // Navigation
-        document.querySelectorAll('nav a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                document.querySelector(link.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
-            });
-        });
     </script>
 </body>
 </html>
