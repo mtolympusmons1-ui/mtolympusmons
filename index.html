@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mt Olympus Mons - Journey to Mars</title>
     <style>
-        body { font-family: 'Orbitron', sans-serif; margin: 0; padding: 0; background: url('https://photojournal.jpl.nasa.gov/jpeg/PIA22659.jpg') no-repeat center fixed; background-size: cover; color: #F6F7F9; /* White text */ }
+        body { font-family: 'Orbitron', sans-serif; margin: 0; padding: 0; background: url('https://photojournal.jpl.nasa.gov/jpeg/PIA22659.jpg') no-repeat center fixed; background-size: cover; color: #F6F7F9; overflow-x: hidden; }
         @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
         header { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)); height: 100vh; text-align: center; padding-top: 20vh; animation: fadeIn 2s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -14,16 +14,18 @@
         nav a:hover { color: #FF6A3D; }
         .section { padding: 5rem 2rem; text-align: center; min-height: 100vh; }
         .booking-form { max-width: 600px; margin: 2rem auto; background: rgba(0,0,0,0.5); padding: 2rem; border-radius: 15px; }
-        .booking-form input, .booking-form select { width: 100%; padding: 1rem; margin: 0.5rem 0; border: none; background: rgba(255,255,255,0.1); color: #F6F7F9; }
-        .booking-btn { background: #FF6A3D; color: #0B0F1A; padding: 1rem 2rem; border: none; border-radius: 5px; cursor: pointer; transition: transform 0.3s; }
-        .booking-btn:hover { transform: scale(1.05); }
+        .booking-form input, .booking-form select { width: 100%; padding: 1rem; margin: 0.5rem 0; border: none; border-radius: 5px; background: #333; color: #F6F7F9; /* Dark background, white text */ }
+        .booking-form select option { background: #333; color: #F6F7F9; /* White options on dark */ }
+        .booking-btn { background: #C1440E; color: #F6F7F9; padding: 1rem 2rem; border: none; border-radius: 5px; cursor: pointer; transition: transform 0.3s; display: flex; align-items: center; justify-content: center; }
+        .booking-btn svg { margin-right: 10px; fill: #F6F7F9; }
+        .booking-btn:hover { transform: scale(1.05); background: #FF6A3D; }
         .disclaimer { color: #8FBCE6; font-size: 0.9em; margin-top: 1rem; }
         .places-animation { display: none; animation: fadeIn 1s; }
-        .animated-image { width: 80%; max-width: 800px; animation: zoomIn 2s; }
+        .animated-3d { width: 80%; max-width: 800px; height: 400px; border: 1px solid #C1440E; border-radius: 10px; animation: zoomIn 2s; }
         @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         footer { background: rgba(0,0,0,0.8); padding: 1rem; text-align: center; position: relative; bottom: 0; width: 100%; }
     </style>
-    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
     <header>
@@ -56,11 +58,13 @@
                 <option value="valles">Valles Marineris</option>
                 <option value="jezero">Jezero Crater</option>
             </select>
-            <button class="booking-btn" onclick="bookTicket()">Buy Your Novelty Ticket ($5)</button>
-            <div id="places-animation" class="places-animation">
+            <button class="booking-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm0 21.75c-5.385 0-9.75-4.365-9.75-9.75s4.365-9.75 9.75-9.75 9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75zm4.95-9.75l-5.4 3.6v-7.2l5.4 3.6z"/></svg>
+                Buy Your Novelty Ticket ($5)
+            </button>
+            <div id="places-animation" class="places-animation" style="display: none;">
                 <h3>Exploring Your Selected Place</h3>
-                <img class="animated-image" src="" alt="Mars Place Animation">
-                <iframe class="animated-image" src="" frameborder="0" allowfullscreen></iframe>
+                <div class="animated-3d" id="3d-container"></div>
             </div>
         </div>
     </div>
@@ -79,14 +83,53 @@
     </div>
     <div class="section" id="contact">
         <h2>Contact Us</h2>
-        <p>Email: mtolympusmons1@gmail.com</p>
+        <p>Email: info@mtolympusmons.com</p>
     </div>
     <footer>
         <p>&copy; 2025 Mt Olympus Mons. All tickets are novelty items for entertainment only. No real travel provided.</p>
     </footer>
     <script>
-        // Booking Function (Real Stripe Integration)
-        const stripe = Stripe('pk_test_51yourpublishablekeyhere'); // Replace with your Stripe public key
+        // 3D Container for Places
+        function showPlace3D(place) {
+            const container = document.getElementById('3d-container');
+            container.innerHTML = ''; // Clear previous
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
+
+            let geometry, material;
+            if (place === 'olympus') {
+                geometry = new THREE.SphereGeometry(5, 32, 32);
+                material = new THREE.MeshPhongMaterial({ color: 0xff4500 }); // Red for Olympus Mons
+            } else if (place === 'valles') {
+                geometry = new THREE.CylinderGeometry(5, 5, 10, 32); // Canyon-like
+                material = new THREE.MeshPhongMaterial({ color: 0x8B4513 }); // Earthy brown
+            } else if (place === 'jezero') {
+                geometry = new THREE.ConeGeometry(5, 10, 32); // Crater-like
+                material = new THREE.MeshPhongMaterial({ color: 0xA52A2A }); // Rusty red
+            }
+
+            const mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+
+            const light = new THREE.PointLight(0xFFFFFF, 1, 100);
+            light.position.set(10, 10, 10);
+            scene.add(light);
+
+            camera.position.z = 10;
+            function animate() {
+                requestAnimationFrame(animate);
+                mesh.rotation.y += 0.01;
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            document.getElementById('places-animation').style.display = 'block';
+        }
+
+        // Booking Function (PayPal Integration)
         function bookTicket() {
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
@@ -98,49 +141,57 @@
                 return;
             }
 
-            showPlaceAnimation(place);
+            showPlace3D(place);
 
-            // Create Checkout Session
-            fetch('https://your-server-url/create-checkout-session', { // Replace with your Vercel or Heroku URL
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    name, email, year, place, amount: 500 // $5 in cents
-                })
-            })
-            .then(response => response.json())
-            .then(session => stripe.redirectToCheckout({ sessionId: session.id }))
-            .then(result => {
-                if (result.error) alert(result.error.message);
-            })
-            .catch(error => console.error('Error:', error));
+            // PayPal Button (Replace with your PayPal code)
+            // Go to paypal.com/buttons, generate a button for $5, paste the form here
+            const paypalForm = document.createElement('form');
+            paypalForm.action = 'https://www.paypal.com/cgi-bin/webscr';
+            paypalForm.method = 'post';
+            paypalForm.innerHTML = `
+                <input type="hidden" name="cmd" value="_s-xclick">
+                <input type="hidden" name="hosted_button_id" value="YOUR_BUTTON_ID"> // Replace with your PayPal button ID
+                <input type="hidden" name="item_name" value="Novelty Mars Ticket">
+                <input type="hidden" name="amount" value="5.00">
+                <input type="hidden" name="currency_code" value="USD">
+                <input type="hidden" name="business" value="madankc2580@gmail.com"> // Your PayPal email
+                <input type="hidden" name="custom" value="${name},${email},${year},${place}">
+                <input type="submit" value="Pay with PayPal" class="booking-btn">
+            `;
+            document.getElementById('booking-form').appendChild(paypalForm);
+
+            // Simulated PDF and alerts (real PDF/email needs server)
+            generateTicket(name, email, year, place);
         }
 
-        function showPlaceAnimation(place) {
-            const animationDiv = document.getElementById('places-animation');
-            const img = animationDiv.querySelector('img');
-            const iframe = animationDiv.querySelector('iframe');
-
-            img.style.display = 'none';
-            iframe.style.display = 'none';
-
-            if (place === 'olympus') {
-                img.src = 'https://photojournal.jpl.nasa.gov/jpeg/PIA22659.jpg'; // NASA Olympus Mons image
-                img.style.display = 'block';
-                iframe.src = 'https://www.youtube.com/embed/OTazRNGXSC8'; // Olympus Mons flyover video
-                iframe.style.display = 'block';
-            } else if (place === 'valles') {
-                img.src = 'https://via.placeholder.com/800x400?text=Valles+Marineris+Animation'; // Placeholder, replace with NASA image
-                img.style.display = 'block';
-                // Add animation CSS
-            } else if (place === 'jezero') {
-                img.src = 'https://via.placeholder.com/800x400?text=Jezero+Crater+Animation'; // Placeholder
-                img.style.display = 'block';
-            }
-
-            animationDiv.style.display = 'block';
-            animationDiv.scrollIntoView();
+        function generateTicket(name, email, year, place) {
+            alert(`Thank you, ${name}! Your novelty boarding pass is being generated. Check your email: ${email}`);
+            // Simulate PDF generation
+            const ticketContent = `
+                <h1>Mt Olympus Mons Boarding Pass</h1>
+                <p>Traveler: ${name}</p>
+                <p>Departure: ${year}</p>
+                <p>Flight: MTO-${Math.random().toString().slice(2,6)}</p>
+                <p>Boarding Gate: Launch Pad 39A, Cape Canaveral</p>
+                <p>Place: ${place}</p>
+                <p style="font-size: 0.7em">This is a novelty item for entertainment only. No real travel provided.</p>
+            `;
+            const blob = new Blob([ticketContent], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${name}_Mars_Ticket.pdf`;
+            a.click();
+            URL.revokeObjectURL(url);
         }
+
+        // Navigation
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelector(link.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
     </script>
 </body>
-</html> 
+</html>
