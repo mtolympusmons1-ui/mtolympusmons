@@ -5,8 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mt Olympus Mons - Journey to Mars</title>
     <style>
-        body { font-family: 'Orbitron', sans-serif; margin: 0; padding: 0; background: url('https://photojournal.jpl.nasa.gov/jpeg/PIA22659.jpg') no-repeat center fixed; background-size: cover; color: #F6F7F9; overflow-x: hidden; } /* Full-screen premium Mars background */
+        body { 
+            font-family: 'Orbitron', sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background: url('https://photojournal.jpl.nasa.gov/jpeg/PIA22659.jpg') no-repeat center fixed; 
+            background-size: cover; 
+            color: #F6F7F9; /* Off-White */
+            overflow-x: hidden; 
+            position: relative; 
+        }
         @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+        /* Mars Surface with Rockets Background Animation */
+        .background-rocket {
+            position: absolute;
+            width: 50px; 
+            height: 100px; 
+            background: linear-gradient(#FF6A3D, #C1440E); /* Mars Orange to Red */
+            border-radius: 50px 50px 0 0;
+            animation: rocketFly 5s infinite linear;
+            box-shadow: 0 0 20px #FF6A3D;
+            opacity: 0.8;
+        }
+        .background-rocket::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 10px;
+            width: 30px;
+            height: 40px;
+            background: linear-gradient(#FFD700, #FF4500); /* Flame Yellow to Orange */
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            animation: flameFlicker 0.5s infinite alternate;
+        }
+        @keyframes rocketFly {
+            0% { bottom: -100px; transform: rotate(0deg); }
+            100% { bottom: 120vh; transform: rotate(5deg); }
+        }
+        @keyframes flameFlicker {
+            0% { height: 40px; opacity: 0.8; }
+            100% { height: 50px; opacity: 1; }
+        }
+        .rocket1 { left: 10%; animation-duration: 8s; }
+        .rocket2 { left: 30%; animation-duration: 6s; animation-delay: 2s; animation-direction: reverse; } /* Coming down */
+        .rocket3 { left: 50%; animation-duration: 7s; animation-delay: 1s; }
+        .rocket4 { left: 70%; animation-duration: 5s; animation-delay: 3s; animation-direction: reverse; } /* Coming down */
+        .rocket5 { left: 90%; animation-duration: 9s; animation-delay: 0.5s; }
         header { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)); height: 100vh; text-align: center; padding-top: 20vh; animation: fadeIn 2s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         nav { background: linear-gradient(45deg, #C1440E, #FF6A3D); padding: 1rem; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 0 20px rgba(255, 106, 61, 0.5); border-radius: 0 0 15px 15px; } /* Premium nav bar with gradient and glow */
@@ -16,10 +60,10 @@
         .booking-form { max-width: 600px; margin: 2rem auto; background: rgba(0,0,0,0.5); padding: 2rem; border-radius: 15px; box-shadow: 0 0 30px rgba(193, 68, 14, 0.3); } /* Premium shadow glow */
         .booking-form input, .booking-form select { width: 100%; padding: 1rem; margin: 0.5rem 0; border: none; border-radius: 30px; background: rgba(0,0,0,0.8); color: #F6F7F9; box-shadow: 0 0 10px rgba(255, 106, 61, 0.3); } /* Premium rounded bars with glow */
         .booking-form select option { background: rgba(0,0,0,0.8); color: #F6F7F9; }
-        .booking-btn { background: linear-gradient(45deg, #C1440E, #FF6A3D); color: #0B0F1A; padding: 1rem 2rem; border: none; border-radius: 30px 30px 5px 5px; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(26, 188, 156, 0.5); position: relative; } /* Starship rocket shape with rounded top and flat bottom, premium glow */
+        .booking-btn { background: linear-gradient(45deg, #C1440E, #FF6A3D); color: #0B0F1A; padding: 1rem 2rem; border: none; border-radius: 30px 30px 5px 5px; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(255, 106, 61, 0.5); position: relative; } /* Starship rocket shape with rounded top and flat bottom, premium glow */
         .booking-btn::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px transparent solid; border-right: 10px transparent solid; border-top: 10px #FF6A3D solid; } /* Flame effect */
         .booking-btn svg { margin-right: 10px; fill: #0B0F1A; width: 20px; height: 20px; } /* Starship icon */
-        .booking-btn:hover { transform: scale(1.05); box-shadow: 0 0 40px rgba(26, 188, 156, 0.8); } /* Premium click feel with scale and glow */
+        .booking-btn:hover { transform: scale(1.05); box-shadow: 0 0 40px rgba(255, 106, 61, 0.8); } /* Premium click feel with scale and glow */
         .booking-btn:active { transform: scale(1.1); } /* Premium click feedback */
         .disclaimer { color: #8FBCE6; font-size: 0.9em; margin-top: 1rem; }
         .places-animation { display: none; animation: fadeIn 1s; }
@@ -27,12 +71,19 @@
         @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .rocket-launch { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; z-index: 2000; }
         .rocket-launch svg { width: 100px; height: 100px; fill: #FF6A3D; animation: launch 3s ease-out forwards; }
-        @keyframes launch { 0% { transform: translate(-50%, -50%) rotate(0deg); opacity: 0; } 20% { opacity: 1; } 100% { transform: translate(-50%, -2000%) rotate(720deg); opacity: 0; } }
+        @keyframes launch { 0% { transform: translateY(0); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(-2000px); opacity: 0; } }
         footer { background: linear-gradient(45deg, #C1440E, #FF6A3D); padding: 1rem; text-align: center; position: relative; bottom: 0; width: 100%; box-shadow: 0 0 20px rgba(255, 106, 61, 0.5); border-radius: 15px 15px 0 0; } /* Premium footer bar with gradient and glow */
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
+    <div class="rocket1 background-rocket" style="left: 10%; animation-duration: 8s;"></div>
+    <div class="rocket2 background-rocket" style="left: 30%; animation-duration: 6s; animation-delay: 2s; animation-direction: reverse;"> <!-- Coming down -->
+    </div>
+    <div class="rocket3 background-rocket" style="left: 50%; animation-duration: 7s; animation-delay: 1s;"></div>
+    <div class="rocket4 background-rocket" style="left: 70%; animation-duration: 5s; animation-delay: 3s; animation-direction: reverse;"> <!-- Coming down -->
+    </div>
+    <div class="rocket5 background-rocket" style="left: 90%; animation-duration: 9s; animation-delay: 0.5s;"></div>
     <header>
         <h1>Mt Olympus Mons</h1>
         <h3>The First Travel Agency for Mars</h3>
@@ -126,7 +177,7 @@
             const mesh = new THREE.Mesh(geometry, material);
             scene.add(mesh);
 
-            const ambientLight = new THREE.AmbientLight(0x404040, 1); // Soft ambient light
+            const ambientLight = new THREE.AmbientLight(0x404040, 1); // Soft light
             scene.add(ambientLight);
             const pointLight = new THREE.PointLight(0xFFFFFF, 1, 100);
             pointLight.position.set(10, 10, 10);
