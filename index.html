@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mt Olympus Mons - Journey to Mars</title>
+    <style>
+        body { font-family: 'Orbitron', sans-serif; margin: 0; padding: 0; background: url('https://photojournal.jpl.nasa.gov/jpeg/PIA22659.jpg') no-repeat center fixed; background-size: cover; color: #F6F7F9; /* White text */ }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+        header { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)); height: 100vh; text-align: center; padding-top: 20vh; animation: fadeIn 2s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        nav { background: rgba(0,0,0,0.8); padding: 1rem; position: fixed; width: 100%; top: 0; z-index: 1000; }
+        nav a { color: #F6F7F9; margin: 0 2rem; text-decoration: none; transition: color 0.3s; }
+        nav a:hover { color: #FF6A3D; }
+        .section { padding: 5rem 2rem; text-align: center; min-height: 100vh; }
+        .booking-form { max-width: 600px; margin: 2rem auto; background: rgba(0,0,0,0.5); padding: 2rem; border-radius: 15px; }
+        .booking-form input, .booking-form select { width: 100%; padding: 1rem; margin: 0.5rem 0; border: none; background: rgba(255,255,255,0.1); color: #F6F7F9; }
+        .booking-btn { background: #FF6A3D; color: #0B0F1A; padding: 1rem 2rem; border: none; border-radius: 5px; cursor: pointer; transition: transform 0.3s; }
+        .booking-btn:hover { transform: scale(1.05); }
+        .disclaimer { color: #8FBCE6; font-size: 0.9em; margin-top: 1rem; }
+        .places-animation { display: none; animation: fadeIn 1s; }
+        .animated-image { width: 80%; max-width: 800px; animation: zoomIn 2s; }
+        @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        footer { background: rgba(0,0,0,0.8); padding: 1rem; text-align: center; position: relative; bottom: 0; width: 100%; }
+    </style>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <header>
+        <h1>Mt Olympus Mons</h1>
+        <h3>The First Travel Agency for Mars</h3>
+        <p>For Fun, Forever</p>
+    </header>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#book">Book</a>
+        <a href="#leaderboard">Leaderboard</a>
+        <a href="#contact">Contact</a>
+    </nav>
+    <div class="section" id="home">
+        <h2>Reserve Your Spot on the Olympus Mons Expedition</h2>
+        <p>Book a $5 novelty ticket to Mars—get your digital boarding pass!</p>
+        <div class="disclaimer">This is a novelty digital ticket, not an actual Mars flight. All purchases are for entertainment only.</div>
+        <div class="booking-form">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="email" id="email" placeholder="Your Email" required>
+            <select id="year" required>
+                <option value="">Departure Year</option>
+                <option value="2080">2080</option>
+                <option value="2085">2085</option>
+                <option value="2090">2090</option>
+            </select>
+            <select id="places" required>
+                <option value="">Select Mars Place</option>
+                <option value="olympus">Olympus Mons</option>
+                <option value="valles">Valles Marineris</option>
+                <option value="jezero">Jezero Crater</option>
+            </select>
+            <button class="booking-btn" onclick="bookTicket()">Buy Your Novelty Ticket ($5)</button>
+            <div id="places-animation" class="places-animation">
+                <h3>Exploring Your Selected Place</h3>
+                <img class="animated-image" src="" alt="Mars Place Animation">
+                <iframe class="animated-image" src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+    <div class="section" id="leaderboard">
+        <h2>Mars Tourists Leaderboard</h2>
+        <p>12,345 brave souls have booked! Will you be next?</p>
+        <div class="passport" id="passport" style="display: none;">
+            <h3>Mars Passport</h3>
+            <p>Name: [Generated]</p>
+            <p>Status: Approved for Mars [Year]</p>
+        </div>
+        <div class="golden-ticket" id="golden-ticket" style="display: none;">
+            <h3>Golden Ticket Upgrade!</h3>
+            <p>Congrats, you’re a VIP Mars Explorer!</p>
+        </div>
+    </div>
+    <div class="section" id="contact">
+        <h2>Contact Us</h2>
+        <p>Email: mtolympusmons1@gmail.com</p>
+    </div>
+    <footer>
+        <p>&copy; 2025 Mt Olympus Mons. All tickets are novelty items for entertainment only. No real travel provided.</p>
+    </footer>
+    <script>
+        // Booking Function (Real Stripe Integration)
+        const stripe = Stripe('pk_test_51yourpublishablekeyhere'); // Replace with your Stripe public key
+        function bookTicket() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const year = document.getElementById('year').value;
+            const place = document.getElementById('places').value;
+
+            if (!name || !email || !year || !place) {
+                alert('Please fill all fields!');
+                return;
+            }
+
+            showPlaceAnimation(place);
+
+            // Create Checkout Session
+            fetch('https://your-server-url/create-checkout-session', { // Replace with your Vercel or Heroku URL
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name, email, year, place, amount: 500 // $5 in cents
+                })
+            })
+            .then(response => response.json())
+            .then(session => stripe.redirectToCheckout({ sessionId: session.id }))
+            .then(result => {
+                if (result.error) alert(result.error.message);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function showPlaceAnimation(place) {
+            const animationDiv = document.getElementById('places-animation');
+            const img = animationDiv.querySelector('img');
+            const iframe = animationDiv.querySelector('iframe');
+
+            img.style.display = 'none';
+            iframe.style.display = 'none';
+
+            if (place === 'olympus') {
+                img.src = 'https://photojournal.jpl.nasa.gov/jpeg/PIA22659.jpg'; // NASA Olympus Mons image
+                img.style.display = 'block';
+                iframe.src = 'https://www.youtube.com/embed/OTazRNGXSC8'; // Olympus Mons flyover video
+                iframe.style.display = 'block';
+            } else if (place === 'valles') {
+                img.src = 'https://via.placeholder.com/800x400?text=Valles+Marineris+Animation'; // Placeholder, replace with NASA image
+                img.style.display = 'block';
+                // Add animation CSS
+            } else if (place === 'jezero') {
+                img.src = 'https://via.placeholder.com/800x400?text=Jezero+Crater+Animation'; // Placeholder
+                img.style.display = 'block';
+            }
+
+            animationDiv.style.display = 'block';
+            animationDiv.scrollIntoView();
+        }
+    </script>
+</body>
+</html> 
